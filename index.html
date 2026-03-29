@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vimass Portugal â Flores Frescas para Profissionais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --orange: #F5921B;
+            --orange-light: #FFB347;
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --white: #ffffff;
+            --gray-light: #f8f8fa;
+            --rose: #e8477d;
+            --violet: #7b5ea7;
+            --teal: #2ec4b6;
+            --coral: #ff6b6b;
+            --gold: #f0c040;
+            --green: #4a9e5c;
+            --blue: #3a86ff;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            overflow-x: hidden;
+            background: var(--white);
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+        nav.scrolled {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 30px rgba(0,0,0,0.08);
+            padding: 0.6rem 2rem;
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 0.7rem;
+            text-decoration: none;
+        }
+        .nav-logo img { height: 42px; width: auto; }
+        nav.scrolled .nav-logo img { filter: none; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: rgba(255,255,255,0.9);
+            font-weight: 500; font-size: 0.9rem; letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+        nav.scrolled .nav-links a { color: var(--dark); }
+        .nav-links a:hover { color: var(--orange); }
+        .nav-cta {
+            background: var(--orange) !important;
+            color: var(--white) !important;
+            padding: 0.6rem 1.5rem !important;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            transition: transform 0.3s, box-shadow 0.3s !important;
+        }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245,146,27,0.4); }
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+        .hamburger span { display: block; width: 25px; height: 2px; background: var(--white); transition: all 0.3s; }
+        nav.scrolled .hamburger span { background: var(--dark); }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center;
+            position: relative; overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0; z-index: 0;
+        }
+        .hero-bg img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .hero-overlay {
+            position: absolute; inset: 0; z-index: 1;
+            background: linear-gradient(135deg, rgba(15,15,26,0.85) 0%, rgba(22,33,62,0.7) 50%, rgba(15,52,96,0.6) 100%);
+        }
+        .hero-content {
+            position: relative; z-index: 2;
+            max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+            display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center;
+        }
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem; line-height: 1.1;
+            color: var(--white); margin-bottom: 1.5rem;
+        }
+        .hero-text h1 em { color: var(--orange); font-style: italic; }
+        .hero-text p {
+            font-size: 1.15rem; color: rgba(255,255,255,0.75);
+            line-height: 1.7; margin-bottom: 2.5rem; max-width: 520px;
+        }
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 1rem 2rem; border-radius: 50px; font-weight: 600;
+            font-size: 1rem; text-decoration: none;
+            transition: all 0.3s ease; cursor: pointer; border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange), var(--orange-light));
+            color: var(--white); box-shadow: 0 8px 30px rgba(245,146,27,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(245,146,27,0.5); }
+        .btn-outline {
+            background: transparent; color: var(--white);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .btn-outline:hover { border-color: var(--orange); color: var(--orange); transform: translateY(-3px); }
+
+        /* Hero photo collage */
+        .hero-collage {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+            max-width: 440px; margin-left: auto;
+        }
+        .hero-collage-img {
+            border-radius: 20px; overflow: hidden;
+            aspect-ratio: 1; position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+        .hero-collage-img:nth-child(2) { animation-delay: -1.5s; }
+        .hero-collage-img:nth-child(3) { animation-delay: -3s; }
+        .hero-collage-img:nth-child(4) { animation-delay: -4.5s; }
+        .hero-collage-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .hero-collage-img:hover img { transform: scale(1.08); }
+        .hero-collage-img .img-label {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 2rem 1rem 0.8rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white; font-weight: 600; font-size: 0.85rem;
+        }
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .hero-badge {
+            position: absolute; top: -15px; right: -15px;
+            background: var(--orange); color: var(--white);
+            width: 85px; height: 85px; border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.7rem; text-align: center; line-height: 1.2;
+            box-shadow: 0 8px 25px rgba(245,146,27,0.4);
+            animation: pulse 2s ease-in-out infinite; z-index: 5;
+        }
+        .hero-badge span { font-size: 1.3rem; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            background: var(--white); padding: 3rem 2rem;
+            box-shadow: 0 10px 60px rgba(0,0,0,0.06);
+            position: relative; z-index: 10;
+        }
+        .stats-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;
+        }
+        .stat-item h3 {
+            font-family: 'Playfair Display', serif; font-size: 2.8rem;
+            background: linear-gradient(135deg, var(--orange), var(--rose));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .stat-item p { color: #666; font-size: 0.9rem; margin-top: 0.3rem; font-weight: 500; }
+
+        /* ===== SECTION COMMON ===== */
+        section { padding: 6rem 2rem; }
+        .section-header { text-align: center; max-width: 650px; margin: 0 auto 4rem; }
+        .section-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(245,146,27,0.1), rgba(232,71,125,0.1));
+            color: var(--orange); font-weight: 600; font-size: 0.8rem;
+            padding: 0.4rem 1.2rem; border-radius: 50px;
+            letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1rem;
+        }
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; color: var(--dark); margin-bottom: 1rem; line-height: 1.2;
+        }
+        .section-header p { color: #666; font-size: 1.05rem; line-height: 1.7; }
+
+        /* ===== ABOUT ===== */
+        .about { background: var(--gray-light); }
+        .about-grid {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+        }
+        .about-image-wrap { position: relative; }
+        .about-image {
+            border-radius: 30px; overflow: hidden; aspect-ratio: 4/5;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        .about-image img { width: 100%; height: 100%; object-fit: cover; }
+        .about-deco {
+            position: absolute; bottom: -15px; right: -15px;
+            width: 120px; height: 120px; background: var(--orange);
+            border-radius: 20px; z-index: -1;
+        }
+        .about-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; margin-bottom: 1.5rem; color: var(--dark);
+        }
+        .about-text p { color: #555; line-height: 1.8; margin-bottom: 1.2rem; font-size: 1.02rem; }
+        .about-highlights {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;
+        }
+        .highlight-item {
+            display: flex; align-items: center; gap: 0.7rem;
+            padding: 0.8rem 1rem; background: var(--white);
+            border-radius: 12px; box-shadow: 0 3px 15px rgba(0,0,0,0.04);
+        }
+        .highlight-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .highlight-item:nth-child(1) .highlight-dot { background: var(--orange); }
+        .highlight-item:nth-child(2) .highlight-dot { background: var(--rose); }
+        .highlight-item:nth-child(3) .highlight-dot { background: var(--teal); }
+        .highlight-item:nth-child(4) .highlight-dot { background: var(--violet); }
+        .highlight-item span { font-weight: 500; font-size: 0.9rem; }
+
+        /* ===== CATALOG ===== */
+        .catalog { background: var(--white); }
+        .catalog-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem;
+        }
+        .catalog-card {
+            border-radius: 24px; overflow: hidden; position: relative; cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            background: var(--white); box-shadow: 0 4px 25px rgba(0,0,0,0.06);
+        }
+        .catalog-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+        .catalog-card-img {
+            aspect-ratio: 1; overflow: hidden; position: relative;
+        }
+        .catalog-card-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .catalog-card:hover .catalog-card-img img { transform: scale(1.1); }
+        .catalog-badge {
+            position: absolute; top: 12px; right: 12px;
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(10px);
+            padding: 0.3rem 0.8rem; border-radius: 50px;
+            font-size: 0.75rem; font-weight: 600; color: var(--dark);
+        }
+        .catalog-card-info { padding: 1.3rem 1.5rem; }
+        .catalog-card-info h4 { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 0.3rem; }
+        .catalog-card-info p { font-size: 0.85rem; color: #888; }
+
+        /* ===== SERVICES ===== */
+        .services {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: var(--white); position: relative; overflow: hidden;
+        }
+        .services::before {
+            content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 50%;
+            background: url('https://images.unsplash.com/photo-1752058238559-e3f198cce52c?w=800&q=80') center/cover;
+            opacity: 0.08;
+        }
+        .services .section-header h2 { color: var(--white); }
+        .services .section-header p { color: rgba(255,255,255,0.6); }
+        .services-grid {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+            position: relative; z-index: 2;
+        }
+        .service-card {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px; padding: 2.5rem 2rem; text-align: center;
+            transition: all 0.4s ease; position: relative; overflow: hidden;
+        }
+        .service-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        }
+        .service-card:nth-child(1)::before { background: linear-gradient(90deg, var(--orange), var(--orange-light)); }
+        .service-card:nth-child(2)::before { background: linear-gradient(90deg, var(--rose), var(--violet)); }
+        .service-card:nth-child(3)::before { background: linear-gradient(90deg, var(--teal), var(--blue)); }
+        .service-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-5px); }
+        .service-icon {
+            width: 70px; height: 70px; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem; overflow: hidden;
+        }
+        .service-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+        .service-card h4 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 1rem; }
+        .service-card p { color: rgba(255,255,255,0.6); line-height: 1.7; font-size: 0.95rem; }
+
+        /* ===== ORIGINS ===== */
+        .origins { background: var(--white); }
+        .origins-content {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+        }
+        .origin-cards { display: flex; flex-direction: column; gap: 1.5rem; }
+        .origin-card {
+            display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem;
+            background: var(--gray-light); border-radius: 20px; transition: all 0.3s ease;
+        }
+        .origin-card:hover { transform: translateX(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .origin-flag {
+            width: 80px; height: 80px; border-radius: 16px; overflow: hidden; flex-shrink: 0;
+        }
+        .origin-flag img { width: 100%; height: 100%; object-fit: cover; }
+        .origin-card h4 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+        .origin-card p { font-size: 0.9rem; color: #777; line-height: 1.5; }
+        .origin-map {
+            position: relative; aspect-ratio: 1; border-radius: 30px;
+            overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        .origin-map img { width: 100%; height: 100%; object-fit: cover; }
+        .origin-map-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(26,26,46,0.5), rgba(15,52,96,0.4));
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--white); text-align: center; padding: 2rem;
+        }
+        .origin-map-overlay h3 { font-family: 'Playfair Display', serif; font-size: 2rem; }
+        .origin-map-overlay p { opacity: 0.8; margin-top: 0.5rem; }
+        .route-dots { display: flex; gap: 0.5rem; margin-top: 1.5rem; }
+        .route-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            animation: dotPulse 1.5s ease-in-out infinite;
+        }
+        .route-dot:nth-child(1) { background: var(--gold); animation-delay: 0s; }
+        .route-dot:nth-child(2) { background: var(--orange); animation-delay: 0.3s; }
+        .route-dot:nth-child(3) { background: var(--rose); animation-delay: 0.6s; }
+        .route-dot:nth-child(4) { background: var(--violet); animation-delay: 0.9s; }
+        .route-dot:nth-child(5) { background: var(--teal); animation-delay: 1.2s; }
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.4); opacity: 1; }
+        }
+
+        /* ===== WHY US ===== */
+        .why-us { background: var(--gray-light); }
+        .why-grid {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;
+        }
+        .why-card {
+            display: flex; gap: 1.5rem; padding: 2rem; background: var(--white);
+            border-radius: 20px; transition: all 0.3s ease;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.03);
+        }
+        .why-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+        .why-icon {
+            width: 55px; height: 55px; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; overflow: hidden;
+        }
+        .why-card:nth-child(1) .why-icon { background: linear-gradient(135deg, rgba(245,146,27,0.15), rgba(255,179,71,0.15)); }
+        .why-card:nth-child(2) .why-icon { background: linear-gradient(135deg, rgba(232,71,125,0.15), rgba(123,94,167,0.15)); }
+        .why-card:nth-child(3) .why-icon { background: linear-gradient(135deg, rgba(46,196,182,0.15), rgba(58,134,255,0.15)); }
+        .why-card:nth-child(4) .why-icon { background: linear-gradient(135deg, rgba(74,158,92,0.15), rgba(46,196,182,0.15)); }
+        .why-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
+        .why-card h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .why-card p { color: #666; font-size: 0.92rem; line-height: 1.7; }
+
+        /* ===== GALLERY ===== */
+        .gallery { background: var(--white); padding-bottom: 2rem; }
+        .gallery-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;
+        }
+        .gallery-item {
+            aspect-ratio: 1; overflow: hidden; border-radius: 8px;
+            position: relative; cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-item::after {
+            content: ''; position: absolute; inset: 0;
+            background: rgba(245,146,27,0); transition: background 0.3s;
+        }
+        .gallery-item:hover::after { background: rgba(245,146,27,0.15); }
+
+        /* ===== MARKETS ===== */
+        .markets { background: var(--gray-light); overflow: hidden; }
+        .markets-track {
+            display: flex; gap: 2rem;
+            animation: scroll 25s linear infinite; width: max-content;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .market-pill {
+            display: flex; align-items: center; gap: 0.8rem;
+            padding: 1rem 2rem; background: var(--white);
+            border-radius: 50px; white-space: nowrap;
+            font-weight: 500; font-size: 1rem; flex-shrink: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+        .market-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+        }
+
+        /* ===== TESTIMONIAL ===== */
+        .testimonial {
+            position: relative; text-align: center; padding: 5rem 2rem; overflow: hidden;
+        }
+        .testimonial-bg {
+            position: absolute; inset: 0;
+        }
+        .testimonial-bg img { width: 100%; height: 100%; object-fit: cover; }
+        .testimonial-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(245,146,27,0.9) 0%, rgba(232,71,125,0.9) 100%);
+        }
+        .testimonial-inner {
+            max-width: 700px; margin: 0 auto; position: relative; z-index: 2;
+        }
+        .testimonial-quote {
+            font-size: 3.5rem; color: rgba(255,255,255,0.25); margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .testimonial-inner blockquote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem; font-style: italic;
+            color: var(--white); line-height: 1.6; margin-bottom: 2rem;
+        }
+        .testimonial-author { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+        /* ===== COLOR STRIP ===== */
+        .color-strip { display: flex; height: 6px; }
+        .color-strip div { flex: 1; }
+
+        /* ===== CONTACT ===== */
+        .contact { background: var(--gray-light); }
+        .contact-grid {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+        }
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; margin-bottom: 1.5rem;
+        }
+        .contact-info p { color: #666; line-height: 1.8; margin-bottom: 2rem; }
+        .contact-details { display: flex; flex-direction: column; gap: 1.2rem; }
+        .contact-item { display: flex; align-items: center; gap: 1rem; }
+        .contact-item-icon {
+            width: 45px; height: 45px; background: var(--white);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05); flex-shrink: 0;
+        }
+        .contact-item-icon svg { width: 20px; height: 20px; stroke: var(--orange); fill: none; stroke-width: 2; }
+        .contact-item-text { font-size: 0.95rem; color: #555; }
+        .contact-item-text strong { color: var(--dark); display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.15rem; }
+        .contact-form {
+            background: var(--white); border-radius: 24px; padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+        }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-weight: 500; font-size: 0.85rem; margin-bottom: 0.4rem; color: var(--dark); }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%; padding: 0.8rem 1rem; border: 2px solid #eee;
+            border-radius: 12px; font-family: 'Inter', sans-serif;
+            font-size: 0.95rem; transition: border-color 0.3s; background: var(--gray-light);
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: var(--orange);
+        }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .btn-submit {
+            width: 100%; background: linear-gradient(135deg, var(--orange), var(--rose));
+            color: var(--white); padding: 1rem; border: none; border-radius: 12px;
+            font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(245,146,27,0.3); }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--darker); color: rgba(255,255,255,0.6);
+            padding: 3rem 2rem 1.5rem;
+        }
+        .footer-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1rem;
+        }
+        .footer-logo { display: flex; align-items: center; gap: 0.6rem; }
+        .footer-logo img { height: 30px; width: auto; }
+        .footer-logo span {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem; color: var(--white); font-weight: 700;
+        }
+        .footer-social { display: flex; gap: 1rem; }
+        .footer-social a {
+            width: 40px; height: 40px; background: rgba(255,255,255,0.08);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: all 0.3s;
+        }
+        .footer-social a:hover { background: var(--orange); }
+        .footer-social a svg { width: 18px; height: 18px; fill: rgba(255,255,255,0.6); }
+        .footer-social a:hover svg { fill: white; }
+        .footer-bottom {
+            max-width: 1100px; margin: 2rem auto 0; padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            text-align: center; font-size: 0.85rem;
+        }
+
+        /* ===== REVEAL ===== */
+        .reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 968px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .hero-text p { margin: 0 auto 2rem; }
+            .hero-buttons { justify-content: center; }
+            .hero-collage { margin: 2rem auto 0; max-width: 320px; }
+            .about-grid, .origins-content, .contact-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+            .stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .why-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+        }
+        @media (max-width: 600px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .section-header h2 { font-size: 2rem; }
+            .stat-item h3 { font-size: 2rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .about-highlights { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="#" class="nav-logo">
+            <img src="https://vimass.com/91ddd81e6d00b6b87cdcaac9a7da49de.png" alt="Vimass Portugal" />
+        </a>
+        <ul class="nav-links">
+            <li><a href="#sobre">Sobre Nos</a></li>
+            <li><a href="#catalogo">Catalogo</a></li>
+            <li><a href="#servicos">Servicos</a></li>
+            <li><a href="#origens">Origens</a></li>
+            <li><a href="#contacto" class="nav-cta">Contactar</a></li>
+        </ul>
+        <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('show')">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+        <div class="hero-bg">
+            <img src="https://images.unsplash.com/photo-1688241964978-be062de84537?w=1600&q=80" alt="Variedade colorida de rosas frescas â Vimass Portugal" loading="eager">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Flores Frescas de <em>Origem</em> para o seu Negocio</h1>
+                <p>Importacao direta da Colombia e Equador. Fornecemos flores premium a floristas, decoradores, hoteis e eventos em todo Portugal.</p>
+                <div class="hero-buttons">
+                    <a href="#contacto" class="btn btn-primary">Solicitar Catalogo</a>
+                    <a href="#catalogo" class="btn btn-outline">Ver Variedades</a>
+                </div>
+            </div>
+            <div class="hero-collage" style="position:relative;">
+                <div class="hero-collage-img">
+                    <img src="https://images.unsplash.com/photo-1548094967-e25a127d1f6d?w=400&q=80" alt="Rosas vermelhas frescas de primeira qualidade">
+                    <div class="img-label">Rosas</div>
+                </div>
+                <div class="hero-collage-img">
+                    <img src="https://images.unsplash.com/photo-1687619485457-85227c89ab12?w=400&q=80" alt="Hortensias azuis com folhagem verde vibrante">
+                    <div class="img-label">Hortensias</div>
+                </div>
+                <div class="hero-collage-img">
+                    <img src="https://images.unsplash.com/photo-1619262448064-916f90b0bd37?w=400&q=80" alt="Cravos rosa e laranja em tons vibrantes">
+                    <div class="img-label">Cravos</div>
+                </div>
+                <div class="hero-collage-img">
+                    <img src="https://images.unsplash.com/photo-1580642178672-699fd3c0f399?w=400&q=80" alt="Crisantemos amarelos luminosos">
+                    <div class="img-label">Crisantemos</div>
+                </div>
+                <div class="hero-badge"><span>365</span>dias/ano</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stats-inner">
+            <div class="stat-item reveal"><h3>15+</h3><p>Anos de Experiencia</p></div>
+            <div class="stat-item reveal"><h3>200+</h3><p>Variedades Disponiveis</p></div>
+            <div class="stat-item reveal"><h3>4</h3><p>Paises de Distribuicao</p></div>
+            <div class="stat-item reveal"><h3>500+</h3><p>Clientes Profissionais</p></div>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="about" id="sobre">
+        <div class="about-grid">
+            <div class="about-image-wrap">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=700&q=80" alt="Equipa de floristas a preparar ramos de flores frescas">
+                </div>
+                <div class="about-deco"></div>
+            </div>
+            <div class="about-text reveal">
+                <span class="section-tag">Sobre Nos</span>
+                <h3>A paixao pelas flores, da origem ao seu atelier</h3>
+                <p>A <strong>Vimass Portugal</strong> e uma empresa especializada na importacao e exportacao de flores frescas cortadas, com ligacao direta as melhores quintas da Colombia e do Equador.</p>
+                <p>Garantimos a maxima frescura e qualidade desde a colheita ate a entrega, trabalhando com uma cadeia de frio controlada e logistica otimizada para que as suas flores cheguem sempre no ponto perfeito.</p>
+                <div class="about-highlights">
+                    <div class="highlight-item"><div class="highlight-dot"></div><span>Importacao Direta</span></div>
+                    <div class="highlight-item"><div class="highlight-dot"></div><span>Cadeia de Frio</span></div>
+                    <div class="highlight-item"><div class="highlight-dot"></div><span>Entrega Semanal</span></div>
+                    <div class="highlight-item"><div class="highlight-dot"></div><span>Qualidade Premium</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATALOG -->
+    <section class="catalog" id="catalogo">
+        <div class="section-header reveal">
+            <span class="section-tag">Catalogo</span>
+            <h2>As Nossas Flores</h2>
+            <p>Uma selecao premium de flores frescas importadas, disponiveis durante todo o ano com a melhor qualidade.</p>
+        </div>
+        <div class="catalog-grid">
+            <div class="catalog-card reveal">
+                <div class="catalog-card-img">
+                    <img src="https://images.unsplash.com/photo-1548094967-e25a127d1f6d?w=500&q=80" alt="Rosas vermelhas equatorianas de talo longo">
+                    <span class="catalog-badge">Premium</span>
+                </div>
+                <div class="catalog-card-info"><h4>Rosas</h4><p>Equador &middot; +40 cores &middot; 50-90cm</p></div>
+            </div>
+            <div class="catalog-card reveal">
+                <div class="catalog-card-img">
+                    <img src="https://images.unsplash.com/photo-1629379555555-79c361b3736b?w=500&q=80" alt="Hortensias azuis em plena floracao">
+                    <span class="catalog-badge">Classico</span>
+                </div>
+                <div class="catalog-card-info"><h4>Hortensias</h4><p>Colombia &middot; Variadas &middot; 60-80cm</p></div>
+            </div>
+            <div class="catalog-card reveal">
+                <div class="catalog-card-img">
+                    <img src="https://images.unsplash.com/photo-1617265178200-facb3f9d8f37?w=500&q=80" alt="Cravos rosa e brancos em arranjo elegante">
+                    <span class="catalog-badge">Versatil</span>
+                </div>
+                <div class="catalog-card-info"><h4>Cravos</h4><p>Colombia &middot; Standard & Spray &middot; 70cm</p></div>
+            </div>
+            <div class="catalog-card reveal">
+                <div class="catalog-card-img">
+                    <img src="https://images.unsplash.com/photo-1554727434-e842126abc82?w=500&q=80" alt="Crisantemos brancos e rosa de grande durabilidade">
+                    <span class="catalog-badge">Popular</span>
+                </div>
+                <div class="catalog-card-info"><h4>Crisantemos</h4><p>Colombia &middot; Spray &middot; 70-80cm</p></div>
+            </div>
+            <div class="catalog-card reveal">
+                <div class="catalog-card-img">
+                    <img src="https://images.unsplash.com/photo-1556291474-7ded8a3b2d38?w=500&q=80" alt="Campo de tulipas coloridas em tons vibrantes">
+                    <span class="catalog-badge">Elegante</span>
+                </div>
+                <div class="catalog-card-info"><h4>Tulipas</h4><p>Equador &middot; +15 cores &middot; 45-55cm</p></div>
+            </div>
+            <div class="catalog-card reveal">
+                <div class="catalog-card-img">
+                    <img src="https://images.unsplash.com/photo-1629727646156-2b330746a94f?w=500&q=80" alt="Astromerias rosa e amarelas tropicais">
+                    <span class="catalog-badge">Tropical</span>
+                </div>
+                <div class="catalog-card-info"><h4>Astromerias</h4><p>Colombia &middot; Mix cores &middot; 70cm</p></div>
+            </div>
+            <div class="catalog-card reveal">
+                <div class="catalog-card-img">
+                    <img src="https://images.unsplash.com/photo-1601519601884-aef41e1eef55?w=500&q=80" alt="Lisianthus rosa e branco em vaso rustico">
+                    <span class="catalog-badge">Exotico</span>
+                </div>
+                <div class="catalog-card-info"><h4>Lisianthus</h4><p>Equador &middot; Duplos &middot; 60-70cm</p></div>
+            </div>
+            <div class="catalog-card reveal">
+                <div class="catalog-card-img">
+                    <img src="https://images.unsplash.com/photo-1543409777-30250849aa3e?w=500&q=80" alt="Ramo de girassois radiantes e luminosos">
+                    <span class="catalog-badge">Radiante</span>
+                </div>
+                <div class="catalog-card-info"><h4>Girassois</h4><p>Equador &middot; XL &middot; 70-90cm</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="servicos">
+        <div class="section-header reveal">
+            <span class="section-tag">Servicos</span>
+            <h2>O Que Fazemos por Si</h2>
+            <p>Solucoes completas para profissionais do sector floral.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-icon">
+                    <img src="https://images.unsplash.com/photo-1758524052916-30baf457aeff?w=200&q=80" alt="Rosas coloridas em estufa de producao">
+                </div>
+                <h4>Importacao Direta</h4>
+                <p>Voos semanais desde Bogota e Quito com cadeia de frio garantida. As suas flores chegam frescas em 48 horas desde a colheita.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">
+                    <img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=200&q=80" alt="Rosas tintadas em cores variadas">
+                </div>
+                <h4>Flores Tintadas</h4>
+                <p>Tintado por absorcao pelo talo para cores unicas e uniformes, sem danificar a flor. Perfeito para eventos tematicos e propostas criativas.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">
+                    <img src="https://images.unsplash.com/photo-1552830124-42b30115439c?w=200&q=80" alt="Ramos de flores variadas prontos para distribuicao">
+                </div>
+                <h4>Distribuicao Nacional</h4>
+                <p>Entrega em todo Portugal continental e ilhas, com logistica otimizada e embalagem profissional para preservar a qualidade.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ORIGINS -->
+    <section class="origins" id="origens">
+        <div class="section-header reveal">
+            <span class="section-tag">Origens</span>
+            <h2>De Onde Vem as Nossas Flores</h2>
+            <p>Trabalhamos diretamente com as melhores quintas da America Latina.</p>
+        </div>
+        <div class="origins-content">
+            <div class="origin-cards">
+                <div class="origin-card reveal">
+                    <div class="origin-flag">
+                        <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=200&q=80" alt="Trabalhadora numa estufa de flores na Colombia">
+                    </div>
+                    <div>
+                        <h4>Colombia</h4>
+                        <p>A sabana de Bogota oferece as condicoes ideais: altitude, luminosidade e clima perfeito para rosas, cravos e crisantemos de classe mundial.</p>
+                    </div>
+                </div>
+                <div class="origin-card reveal">
+                    <div class="origin-flag">
+                        <img src="https://images.unsplash.com/photo-1758524052916-30baf457aeff?w=200&q=80" alt="Rosas coloridas cultivadas em estufa equatoriana">
+                    </div>
+                    <div>
+                        <h4>Equador</h4>
+                        <p>Situadas na linha do equador e a grande altitude, as quintas equatorianas produzem as rosas com as maiores cabecas e talos mais longos do mundo.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="origin-map reveal">
+                <img src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=700&q=80" alt="Colheita de flores frescas numa quinta latino-americana">
+                <div class="origin-map-overlay">
+                    <h3>Da Origem a Portugal</h3>
+                    <p>Frescura garantida em 48h</p>
+                    <div class="route-dots">
+                        <div class="route-dot"></div>
+                        <div class="route-dot"></div>
+                        <div class="route-dot"></div>
+                        <div class="route-dot"></div>
+                        <div class="route-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="why-us">
+        <div class="section-header reveal">
+            <span class="section-tag">Porque Nos</span>
+            <h2>A Diferenca Vimass</h2>
+            <p>O que nos distingue e a nossa dedicacao a qualidade e ao servico.</p>
+        </div>
+        <div class="why-grid">
+            <div class="why-card reveal">
+                <div class="why-icon">
+                    <img src="https://images.unsplash.com/photo-1556712691-5c39e0e32a8e?w=120&q=80" alt="Rosas premium em tons quentes â qualidade certificada">
+                </div>
+                <div><h4>Qualidade Certificada</h4><p>Selecao rigorosa nas quintas de origem. Apenas as melhores flores chegam ao nosso armazem, com controlo de qualidade em cada etapa.</p></div>
+            </div>
+            <div class="why-card reveal">
+                <div class="why-icon">
+                    <img src="https://images.unsplash.com/photo-1588656699187-85ea028553d5?w=120&q=80" alt="Rosa rosa em detalhe â frescura garantida">
+                </div>
+                <div><h4>Pontualidade Garantida</h4><p>Sabemos que o tempo e crucial no sector floral. As encomendas sao preparadas e entregues no prazo acordado, sempre.</p></div>
+            </div>
+            <div class="why-card reveal">
+                <div class="why-icon">
+                    <img src="https://images.unsplash.com/photo-1726394748120-63149f579c0b?w=120&q=80" alt="Flores frescas em exposicao no mercado">
+                </div>
+                <div><h4>Precos Competitivos</h4><p>Sem intermediarios. Importacao direta que nos permite oferecer os melhores precos do mercado mantendo a qualidade premium.</p></div>
+            </div>
+            <div class="why-card reveal">
+                <div class="why-icon">
+                    <img src="https://images.unsplash.com/photo-1560453497-fdcb351a0c55?w=120&q=80" alt="Florista profissional segurando um ramo colorido">
+                </div>
+                <div><h4>Atendimento Personalizado</h4><p>Cada cliente e unico. Adaptamos as nossas solucoes as suas necessidades especificas com um servico proximo e dedicado.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery">
+        <div class="section-header reveal">
+            <span class="section-tag">Galeria</span>
+            <h2>A Beleza das Nossas Flores</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1548094967-e25a127d1f6d?w=400&q=80" alt="Rosas vermelhas premium importadas" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1629379555555-79c361b3736b?w=400&q=80" alt="Hortensias azuis vibrantes" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1580642178672-699fd3c0f399?w=400&q=80" alt="Crisantemos amarelos em detalhe" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1556291474-7ded8a3b2d38?w=400&q=80" alt="Campo de tulipas coloridas" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1601519601884-aef41e1eef55?w=400&q=80" alt="Lisianthus rosa e branco delicado" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=400&q=80" alt="Floristas a preparar arranjos florais" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1543409777-30250849aa3e?w=400&q=80" alt="Ramo de girassois radiantes" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1552830124-42b30115439c?w=400&q=80" alt="Ramos variados de flores frescas" loading="lazy"></div>
+        </div>
+    </section>
+
+    <!-- MARKETS -->
+    <section class="markets">
+        <div class="section-header reveal">
+            <span class="section-tag">Mercados</span>
+            <h2>Servimos Profissionais em Todo o Pais</h2>
+        </div>
+        <div class="markets-track">
+            <div class="market-pill"><div class="market-dot" style="background:var(--rose);"></div> Floristas</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--violet);"></div> Decoradores</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--orange);"></div> Hoteis</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--teal);"></div> Eventos</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--coral);"></div> Casamentos</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--blue);"></div> Restaurantes</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--gold);"></div> Grossistas</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--green);"></div> Spas & Wellness</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--rose);"></div> Floristas</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--violet);"></div> Decoradores</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--orange);"></div> Hoteis</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--teal);"></div> Eventos</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--coral);"></div> Casamentos</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--blue);"></div> Restaurantes</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--gold);"></div> Grossistas</div>
+            <div class="market-pill"><div class="market-dot" style="background:var(--green);"></div> Spas & Wellness</div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIAL -->
+    <section class="testimonial">
+        <div class="testimonial-bg">
+            <img src="https://images.unsplash.com/photo-1752058238559-e3f198cce52c?w=1400&q=80" alt="Mosaico de rosas coloridas â a variedade Vimass">
+        </div>
+        <div class="testimonial-inner reveal">
+            <div class="testimonial-quote">"</div>
+            <blockquote>
+                "Trabalhar com a Vimass transformou o nosso negocio. A qualidade das flores e excepcional e a consistencia do servico permite-nos planear com confianca total."
+            </blockquote>
+            <p class="testimonial-author">-- Maria Silva, Florista em Lisboa</p>
+        </div>
+    </section>
+
+    <!-- COLOR STRIP -->
+    <div class="color-strip">
+        <div style="background: var(--orange);"></div>
+        <div style="background: var(--rose);"></div>
+        <div style="background: var(--violet);"></div>
+        <div style="background: var(--teal);"></div>
+        <div style="background: var(--blue);"></div>
+        <div style="background: var(--gold);"></div>
+        <div style="background: var(--green);"></div>
+        <div style="background: var(--coral);"></div>
+    </div>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contacto">
+        <div class="contact-grid">
+            <div class="contact-info reveal">
+                <span class="section-tag">Contacto</span>
+                <h3>Vamos Trabalhar Juntos?</h3>
+                <p>Quer seja um florista a procura de um fornecedor fiavel, um decorador que precisa de flores especiais, ou um hotel que quer flores frescas todos os dias -- estamos aqui para si.</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <div class="contact-item-text"><strong>Morada</strong>Portugal</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        </div>
+                        <div class="contact-item-text"><strong>Email</strong>portugal@vimass.com</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </div>
+                        <div class="contact-item-text"><strong>Telefone</strong>+351 XXX XXX XXX</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="contact-item-text"><strong>Horario</strong>Seg-Sex: 07:00 - 18:00</div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form reveal">
+                <form onsubmit="event.preventDefault(); this.querySelector('.btn-submit').textContent='Enviado! Obrigado.'; this.querySelector('.btn-submit').style.background='var(--green)';">
+                    <div class="form-row">
+                        <div class="form-group"><label>Nome</label><input type="text" placeholder="O seu nome" required></div>
+                        <div class="form-group"><label>Empresa</label><input type="text" placeholder="Nome da empresa"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Email</label><input type="email" placeholder="email@exemplo.pt" required></div>
+                        <div class="form-group"><label>Telefone</label><input type="tel" placeholder="+351 ..."></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Negocio</label>
+                        <select>
+                            <option value="">Selecione...</option>
+                            <option>Florista</option>
+                            <option>Decorador/a</option>
+                            <option>Hotel / Restaurante</option>
+                            <option>Eventos</option>
+                            <option>Grossista</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Mensagem</label><textarea placeholder="Diga-nos o que precisa..."></textarea></div>
+                    <button type="submit" class="btn-submit">Enviar Mensagem</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-logo">
+                <img src="https://vimass.com/91ddd81e6d00b6b87cdcaac9a7da49de.png" alt="Vimass Portugal" />
+                <span>Portugal</span>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/vimassflora/" target="_blank" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="https://www.vimass.com" target="_blank" aria-label="Website">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </a>
+                <a href="https://youtu.be/v9zmg4zThRc" target="_blank" aria-label="YouTube">
+                    <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.35 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2026 Vimass Portugal. Todos os direitos reservados. | <a href="https://www.vimass.com" style="color:var(--orange);text-decoration:none;">vimass.com</a> | <a href="https://www.vimassportugal.com" style="color:var(--orange);text-decoration:none;">vimassportugal.com</a></p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Navbar scroll
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Reveal on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Counter animation
+        function animateCounters() {
+            document.querySelectorAll('.stat-item h3').forEach(el => {
+                const text = el.textContent;
+                const num = parseInt(text);
+                const suffix = text.replace(/[0-9]/g, '');
+                if (isNaN(num)) return;
+                let current = 0;
+                const step = Math.ceil(num / 40);
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= num) { current = num; clearInterval(timer); }
+                    el.textContent = current + suffix;
+                }, 40);
+            });
+        }
+        const statsObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { animateCounters(); statsObs.unobserve(entry.target); }
+            });
+        }, { threshold: 0.5 });
+        statsObs.observe(document.querySelector('.stats-bar'));
+    </script>
+</body>
+</html>
