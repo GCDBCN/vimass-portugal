@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vimass Portugal â Flores Frescas para Profissionais</title>
+    <title>Vimass Portugal Ã¢ÂÂ Flores Frescas para Profissionais</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -576,7 +576,7 @@
     <!-- HERO -->
     <section class="hero" id="inicio">
         <div class="hero-bg">
-            <img src="https://images.unsplash.com/photo-1688241964978-be062de84537?w=1600&q=80" alt="Variedade colorida de rosas frescas â Vimass Portugal" loading="eager">
+            <img src="https://images.unsplash.com/photo-1688241964978-be062de84537?w=1600&q=80" alt="Variedade colorida de rosas frescas Ã¢ÂÂ Vimass Portugal" loading="eager">
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -798,13 +798,13 @@
         <div class="why-grid">
             <div class="why-card reveal">
                 <div class="why-icon">
-                    <img src="https://images.unsplash.com/photo-1556712691-5c39e0e32a8e?w=120&q=80" alt="Rosas premium em tons quentes â qualidade certificada">
+                    <img src="https://images.unsplash.com/photo-1556712691-5c39e0e32a8e?w=120&q=80" alt="Rosas premium em tons quentes Ã¢ÂÂ qualidade certificada">
                 </div>
                 <div><h4>Qualidade Certificada</h4><p>Selecao rigorosa nas quintas de origem. Apenas as melhores flores chegam ao nosso armazem, com controlo de qualidade em cada etapa.</p></div>
             </div>
             <div class="why-card reveal">
                 <div class="why-icon">
-                    <img src="https://images.unsplash.com/photo-1588656699187-85ea028553d5?w=120&q=80" alt="Rosa rosa em detalhe â frescura garantida">
+                    <img src="https://images.unsplash.com/photo-1588656699187-85ea028553d5?w=120&q=80" alt="Rosa rosa em detalhe Ã¢ÂÂ frescura garantida">
                 </div>
                 <div><h4>Pontualidade Garantida</h4><p>Sabemos que o tempo e crucial no sector floral. As encomendas sao preparadas e entregues no prazo acordado, sempre.</p></div>
             </div>
@@ -870,7 +870,7 @@
     <!-- TESTIMONIAL -->
     <section class="testimonial">
         <div class="testimonial-bg">
-            <img src="https://images.unsplash.com/photo-1752058238559-e3f198cce52c?w=1400&q=80" alt="Mosaico de rosas coloridas â a variedade Vimass">
+            <img src="https://images.unsplash.com/photo-1752058238559-e3f198cce52c?w=1400&q=80" alt="Mosaico de rosas coloridas Ã¢ÂÂ a variedade Vimass">
         </div>
         <div class="testimonial-inner reveal">
             <div class="testimonial-quote">"</div>
@@ -928,18 +928,18 @@
                 </div>
             </div>
             <div class="contact-form reveal">
-                <form onsubmit="event.preventDefault(); this.querySelector('.btn-submit').textContent='Enviado! Obrigado.'; this.querySelector('.btn-submit').style.background='var(--green)';">
+                <form id="contactForm" onsubmit="submitContactForm(event)">
                     <div class="form-row">
-                        <div class="form-group"><label>Nome</label><input type="text" placeholder="O seu nome" required></div>
-                        <div class="form-group"><label>Empresa</label><input type="text" placeholder="Nome da empresa"></div>
+                        <div class="form-group"><label>Nome</label><input type="text" id="cf-nome" placeholder="O seu nome" required></div>
+                        <div class="form-group"><label>Empresa</label><input type="text" id="cf-empresa" placeholder="Nome da empresa"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Email</label><input type="email" placeholder="email@exemplo.pt" required></div>
-                        <div class="form-group"><label>Telefone</label><input type="tel" placeholder="+351 ..."></div>
+                        <div class="form-group"><label>Email</label><input type="email" id="cf-email" placeholder="email@exemplo.pt" required></div>
+                        <div class="form-group"><label>Telefone</label><input type="tel" id="cf-telefono" placeholder="+351 ..."></div>
                     </div>
                     <div class="form-group">
                         <label>Tipo de Negocio</label>
-                        <select>
+                        <select id="cf-negocio">
                             <option value="">Selecione...</option>
                             <option>Florista</option>
                             <option>Decorador/a</option>
@@ -949,7 +949,7 @@
                             <option>Outro</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Mensagem</label><textarea placeholder="Diga-nos o que precisa..."></textarea></div>
+                    <div class="form-group"><label>Mensagem</label><textarea id="cf-mensaje" placeholder="Diga-nos o que precisa..."></textarea></div>
                     <button type="submit" class="btn-submit">Enviar Mensagem</button>
                 </form>
             </div>
@@ -982,7 +982,38 @@
 
     <!-- SCRIPTS -->
     <script>
-        // Navbar scroll
+        // Contact Form Submit
+    function submitContactForm(e) {
+        e.preventDefault();
+        var btn = e.target.querySelector('.btn-submit');
+        btn.textContent = 'A enviar...';
+        btn.disabled = true;
+        var data = {
+            nombre: document.getElementById('cf-nome').value,
+            email: document.getElementById('cf-email').value,
+            telefono: document.getElementById('cf-telefono').value,
+            empresa: document.getElementById('cf-empresa').value + (document.getElementById('cf-negocio').value ? ' (' + document.getElementById('cf-negocio').value + ')' : ''),
+            mensaje: document.getElementById('cf-mensaje').value
+        };
+        fetch('https://script.google.com/macros/s/AKfycbwmqKMNCI4FTfc0D40DGPtfDDjdIC_59e3QGzN3NCYv3p91q0H5FvQvQ32j1CpvUqt40Q/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }).then(function() {
+            btn.textContent = 'Enviado! Obrigado.';
+            btn.style.background = 'var(--green)';
+            e.target.reset();
+            setTimeout(function() { btn.textContent = 'Enviar Mensagem'; btn.style.background = ''; btn.disabled = false; }, 4000);
+        }).catch(function() {
+            btn.textContent = 'Erro. Tente novamente.';
+            btn.style.background = '#e74c3c';
+            btn.disabled = false;
+            setTimeout(function() { btn.textContent = 'Enviar Mensagem'; btn.style.background = ''; }, 3000);
+        });
+    }
+
+    // Navbar scroll
         const nav = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             nav.classList.toggle('scrolled', window.scrollY > 50);
