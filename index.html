@@ -71,6 +71,15 @@
             transition: transform 0.3s, box-shadow 0.3s !important;
         }
         .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245,146,27,0.4); }
+        .nav-openmarket {
+            background: var(--dark) !important;
+            border: 1px solid var(--orange) !important;
+        }
+        .nav-openmarket:hover { box-shadow: 0 8px 25px rgba(34,37,48,0.4) !important; }
+        nav.scrolled .nav-openmarket {
+            background: var(--dark) !important;
+            color: var(--white) !important;
+        }
         .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
         .hamburger span { display: block; width: 25px; height: 2px; background: var(--white); transition: all 0.3s; }
         nav.scrolled .hamburger span { background: var(--dark); }
@@ -627,6 +636,7 @@
             <li><a href="#origens">Origens</a></li>
             <li><a href="#equipa">Equipa</a></li>
             <li><a href="#contacto" class="nav-cta">Contactar</a></li>
+            <li><a href="https://vimass.openmarketimport.com/" target="_blank" class="nav-cta nav-openmarket">Open Market</a></li>
         </ul>
         <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('show')">
             <span></span><span></span><span></span>
