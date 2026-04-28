@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Vimass Portugal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #FF8F33;
+            --orange-light: #F7AF7F;
+            --dark: #222530;
+            --darker: #181C28;
+            --white: #ffffff;
+            --gray-light: #f3f3f5;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--white);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--gray-light);
+            z-index: 1000;
+            padding: 0 40px;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-logo {
+            height: 50px;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            flex: 1;
+            margin-left: 60px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        .nav-links a.active {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .btn-primary {
+            background-color: var(--orange);
+            color: var(--white);
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff7d1a;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--darker);
+            transform: translateY(-2px);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--gray-light);
+            padding: 30px 40px;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--orange);
+        }
+
+        /* Main content margin */
+        main {
+            margin-top: 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: var(--white);
+            padding: 120px 40px;
+            text-align: center;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero h1 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 72px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            color: var(--orange-light);
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .hero .description {
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        /* Blog Section */
+        .blog-section {
+            padding: 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .section-header h2 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--orange);
+            font-weight: 500;
+        }
+
+        /* Card Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .blog-card {
+            background-color: var(--white);
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease;
+            cursor: pointer;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            transform: translateY(-8px);
+            border-color: transparent;
+        }
+
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--orange);
+        }
+
+        .blog-card:nth-child(2)::before,
+        .blog-card:nth-child(4)::before,
+        .blog-card:nth-child(6)::before,
+        .blog-card:nth-child(8)::before {
+            background-color: var(--orange-light);
+        }
+
+        .card-content {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-category {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-family: 'Rubik', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 16px;
+            line-height: 1.4;
+            transition: color 0.3s ease;
+        }
+
+        .blog-card:hover .card-title {
+            color: var(--orange);
+        }
+
+        .card-excerpt {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-link {
+            font-family: 'Rubik', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--orange);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-link:hover {
+            gap: 12px;
+            color: var(--dark);
+        }
+
+        .card-link::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover .card-link::after {
+            transform: translateX(4px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker);
+            color: var(--white);
+            padding: 80px 40px 40px;
+            margin-top: 100px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-section h3 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--white);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--orange);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 40px;
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
+            }
+
+            nav {
+                padding: 0 24px;
+                height: 70px;
+            }
+
+            main {
+                margin-top: 70px;
+            }
+
+            .hero {
+                padding: 80px 24px;
+            }
+
+            .hero h1 {
+                font-size: 52px;
+            }
+
+            .hero .subtitle {
+                font-size: 20px;
+            }
+
+            .blog-section {
+                padding: 80px 24px;
+            }
+
+            .section-header h2 {
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 20px;
+                height: 60px;
+            }
+
+            main {
+                margin-top: 60px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+                margin-left: auto;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+                margin-bottom: 16px;
+            }
+
+            .hero .subtitle {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .hero .description {
+                font-size: 15px;
+            }
+
+            .blog-section {
+                padding: 60px 20px;
+            }
+
+            .section-header {
+                margin-bottom: 50px;
+            }
+
+            .section-header h2 {
+                font-size: 32px;
+            }
+
+            .card-content {
+                padding: 24px;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+                margin-bottom: 40px;
+            }
+
+            footer {
+                padding: 60px 20px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                height: 56px;
+                padding: 0 16px;
+            }
+
+            main {
+                margin-top: 56px;
+            }
+
+            .nav-logo {
+                height: 40px;
+            }
+
+            .hero {
+                padding: 50px 16px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+                margin-bottom: 12px;
+            }
+
+            .hero .subtitle {
+                font-size: 16px;
+            }
+
+            .hero .description {
+                font-size: 14px;
+            }
+
+            .blog-section {
+                padding: 50px 16px;
+            }
+
+            .section-header h2 {
+                font-size: 28px;
+            }
+
+            .section-header p {
+                font-size: 14px;
+            }
+
+            .card-content {
+                padding: 20px;
+            }
+
+            .card-title {
+                font-size: 18px;
+            }
+
+            .card-excerpt {
+                font-size: 14px;
+            }
+
+            .card-category {
+                font-size: 11px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-bottom: 30px;
+            }
+
+            footer {
+                padding: 50px 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <img src="https://vimass.com/91ddd81e6d00b6b87cdcaac9a7da49de.png" alt="Vimass Portugal" class="nav-logo">
+        <ul class="nav-links">
+            <li><a href="index.html#sobre">Sobre Nos</a></li>
+            <li><a href="index.html#catalogo">Catalogo</a></li>
+            <li><a href="index.html#servicos">Servicos</a></li>
+            <li><a href="index.html#origens">Origens</a></li>
+            <li><a href="index.html#equipa">Equipa</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+        </ul>
+        <div class="nav-cta">
+            <a href="index.html#contactar" class="btn-primary">Contactar</a>
+            <a href="index.html#open-market" class="btn-secondary">Open Market</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html#sobre">Sobre Nos</a>
+        <a href="index.html#catalogo">Catalogo</a>
+        <a href="index.html#servicos">Servicos</a>
+        <a href="index.html#origens">Origens</a>
+        <a href="index.html#equipa">Equipa</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contactar" class="btn-primary" style="display: inline-block; text-align: center;">Contactar</a>
+        <a href="index.html#open-market" class="btn-secondary" style="display: inline-block; text-align: center;">Open Market</a>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>BLOG</h1>
+            <div class="subtitle">Diário do Setor Florícola</div>
+            <p class="description">Descubra insights, tendências e análises aprofundadas sobre o mundo das flores. Conteúdo especializado para grossistas e profissionais do setor.</p>
+        </section>
+
+        <!-- Blog Section -->
+        <section class="blog-section">
+            <div class="section-header">
+                <h2>ÚLTIMOS ARTIGOS</h2>
+                <p>Conhecimento e tendências do mercado florícola</p>
+            </div>
+
+            <div class="blog-grid">
+                <!-- Post 1 -->
+                <article class="blog-card scroll-animate">
+                    <div class="card-content">
+                        <div class="card-category">IMPORTAÇÃO · QUALIDADE</div>
+                        <h3 class="card-title">Porque Escolher Rosas Colombianas e Equatorianas</h3>
+                        <p class="card-excerpt">Explora as vantagens das rosas de origem colombiana e equatoriana: durabilidade excepcional, cores vibrantes e variedades exclusivas que conquistam o mercado português.</p>
+                        <div class="card-meta">
+                            <span>28 Mar 2026 · 12 min de leitura</span>
+                        </div>
+                        <a href="blog/post-1.html" class="card-link">LER ARTIGO</a>
+                    </div>
+                </article>
+
+                <!-- Post 2 -->
+                <article class="blog-card scroll-animate">
+                    <div class="card-content">
+                        <div class="card-category">LOGÍSTICA · QUALIDADE</div>
+                        <h3 class="card-title">Guia Completo de Conservação de Flores Frescas para Grossistas</h3>
+                        <p class="card-excerpt">Aprenda técnicas essenciais de conservação para maximizar a durabilidade das flores. Desde o transporte até à exposição, garantindo frescura e qualidade máxima.</p>
+                        <div class="card-meta">
+                            <span>15 Mar 2026 · 10 min de leitura</span>
+                        </div>
+                        <a href="blog/post-2.html" class="card-link">LER ARTIGO</a>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="blog-card scroll-animate">
+                    <div class="card-content">
+                        <div class="card-category">TENDÊNCIAS · INOVAÇÃO</div>
+                        <h3 class="card-title">Flores Tintadas: A Tendência que Revoluciona o Mercado</h3>
+                        <p class="card-excerpt">Descubra como as flores tintadas transformaram a indústria. Desde as cores clássicas até aos degradés personalizados, uma nova dimensão criativa para floricultores.</p>
+                        <div class="card-meta">
+                            <span>2 Abr 2026 · 8 min de leitura</span>
+                        </div>
+                        <a href="blog/post-3.html" class="card-link">LER ARTIGO</a>
+                    </div>
+                </article>
+
+                <!-- Post 4 -->
+                <article class="blog-card scroll-animate">
+                    <div class="card-content">
+                        <div class="card-category">NEGÓCIO · IMPORTAÇÃO</div>
+                        <h3 class="card-title">Como a Importação Direta Reduz Custos para Grossistas</h3>
+                        <p class="card-excerpt">Analisa os benefícios económicos da importação direta: elimine intermediários, otimize margens e acesse melhores preços no mercado internacional de flores.</p>
+                        <div class="card-meta">
+                            <span>10 Abr 2026 · 9 min de leitura</span>
+                        </div>
+                        <a href="blog/post-4.html" class="card-link">LER ARTIGO</a>
+                    </div>
+                </article>
+
+                <!-- Post 5 -->
+                <article class="blog-card scroll-animate">
+                    <div class="card-content">
+                        <div class="card-category">MERCADO · CATÁLOGO</div>
+                        <h3 class="card-title">As 7 Flores Mais Procuradas por Grossistas em Portugal</h3>
+                        <p class="card-excerpt">Um ranking das espécies mais demandadas no mercado português. Rosas, tulipas, lírios e muito mais: conhece as preferências que moldam o negócio.</p>
+                        <div class="card-meta">
+                            <span>18 Abr 2026 · 7 min de leitura</span>
+                        </div>
+                        <a href="blog/post-5.html" class="card-link">LER ARTIGO</a>
+                    </div>
+                </article>
+
+                <!-- Post 6 -->
+                <article class="blog-card scroll-animate">
+                    <div class="card-content">
+                        <div class="card-category">LOGÍSTICA · OPERAÇÕES</div>
+                        <h3 class="card-title">Logística e Cadeia de Frio: Da Colômbia a Portugal</h3>
+                        <p class="card-excerpt">Entende o processo logístico complexo que mantém as flores frescas durante a jornada internacional. Tecnologia, timing e expertise em cada envio.</p>
+                        <div class="card-meta">
+                            <span>5 Mar 2026 · 11 min de leitura</span>
+                        </div>
+                        <a href="blog/post-6.html" class="card-link">LER ARTIGO</a>
+                    </div>
+                </article>
+
+                <!-- Post 7 -->
+                <article class="blog-card scroll-animate">
+                    <div class="card-content">
+                        <div class="card-category">MERCADO · OPORTUNIDADES</div>
+                        <h3 class="card-title">Flores para Eventos e Casamentos: Ampliar a Oferta</h3>
+                        <p class="card-excerpt">Estratégias para expandir para o segmento de eventos. Tendências em decoração floral, fornecimentos para grandes ocasiões e margens de lucro atrativas.</p>
+                        <div class="card-meta">
+                            <span>22 Abr 2026 · 8 min de leitura</span>
+                        </div>
+                        <a href="blog/post-7.html" class="card-link">LER ARTIGO</a>
+                    </div>
+                </article>
+
+                <!-- Post 8 -->
+                <article class="blog-card scroll-animate">
+                    <div class="card-content">
+                        <div class="card-category">MERCADO · ANÁLISE</div>
+                        <h3 class="card-title">O Mercado de Flores em Portugal: Oportunidades em 2026</h3>
+                        <p class="card-excerpt">Uma análise prospetiva do mercado florícola português. Crescimento previsto, tendências de consumo e oportunidades de negócio para o ano que vem.</p>
+                        <div class="card-meta">
+                            <span>25 Abr 2026 · 10 min de leitura</span>
+                        </div>
+                        <a href="blog/post-8.html" class="card-link">LER ARTIGO</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sobre Vimass</h3>
+                <ul>
+                    <li><a href="index.html#sobre">Sobre Nos</a></li>
+                    <li><a href="index.html#equipa">Equipa</a></li>
+                    <li><a href="index.html#origens">Origens</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Negócio</h3>
+                <ul>
+                    <li><a href="index.html#catalogo">Catálogo</a></li>
+                    <li><a href="index.html#servicos">Serviços</a></li>
+                    <li><a href="index.html#open-market">Open Market</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacte-nos</h3>
+                <ul>
+                    <li><a href="mailto:info@vimassportugal.com">info@vimassportugal.com</a></li>
+                    <li><a href="tel:+351217000000">+351 217 000 000</a></li>
+                    <li><a href="index.html#contactar">Formulário de Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Siga-nos</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Vimass Portugal. Todos os direitos reservados. | <a href="#" style="color: inherit;">Política de Privacidade</a> | <a href="#" style="color: inherit;">Termos de Serviço</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-animate').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Set active navigation link
+        const currentPage = window.location.pathname.split('/').pop() || 'blog.html';
+        document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
+            if (link.getAttribute('href') === currentPage || link.getAttribute('href') === 'blog.html') {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
